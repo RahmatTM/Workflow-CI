@@ -1,0 +1,7 @@
+name: Eksperimen_SML_RahmatSaleh
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    command: "python modelling.py"
