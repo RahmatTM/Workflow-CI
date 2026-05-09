@@ -7,7 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1Guilc1m8FjWOZ4qNusKwjEQjeD4vzSbk
 """
 
-!pip install mlflow
 import pandas as pd
 import numpy as np
 
@@ -52,5 +51,3 @@ print(f'Akurasi: {accuracy}')
 
 print('\nClassification Report')
 print(classification_report(y_test, y_pred))
-
-!mlflow run .
