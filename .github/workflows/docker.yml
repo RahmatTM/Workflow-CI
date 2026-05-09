@@ -41,8 +41,8 @@ jobs:
       - name: Build Docker Image with MLflow
         run: |
           mlflow models build-docker \
-          -m MLProject \
-          -n ${{ secrets.DOCKER_USERNAME }}/workflow-ci
+            -m MLProject/model \
+            -n ${{ secrets.DOCKER_USERNAME }}/workflow-ci
 
       - name: Push Docker Image
         run: |
