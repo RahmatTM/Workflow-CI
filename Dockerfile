@@ -6,4 +6,4 @@ COPY . .
 
 RUN pip install mlflow pandas scikit-learn
 
-CMD ["python", "modelling.py"]
+CMD ["python", "MLProject/modelling.py"]
