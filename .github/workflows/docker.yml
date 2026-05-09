@@ -26,9 +26,10 @@ jobs:
         run: |
           python MLProject/modelling.py
           
-     - name: Check files
+      - name: Check files
         run: |
           ls -R
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
