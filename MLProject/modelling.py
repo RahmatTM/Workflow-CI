@@ -25,7 +25,7 @@ model = LogisticRegression(max_iter=1000)
 model.fit(X_train, y_train)
 
 # SIMPAN MODEL (FIX PATH)
-mlflow.sklearn.save_model(model, "model")
+mlflow.sklearn.save_model(model, "MLProject/model")
 
 # PREDIKSI
 y_pred = model.predict(X_test)
