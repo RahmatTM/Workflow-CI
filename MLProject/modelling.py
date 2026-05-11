@@ -1,10 +1,15 @@
 import pandas as pd
 import numpy as np
+import mlflow
 import mlflow.sklearn
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
+
+# ENABLE MLFLOW AUTOLOG
+mlflow.autolog()
 
 # LOAD DATASET
 url = 'https://media.githubusercontent.com/media/RahmatTM/Workflow-CI/refs/heads/main/MLProject/dataset_preprocessing/data_clean.csv'
@@ -30,7 +35,6 @@ mlflow.sklearn.save_model(model, "MLProject/model")
 # PREDIKSI
 y_pred = model.predict(X_test)
 
-# EVALUASI
 accuracy = accuracy_score(y_test, y_pred)
 print(f'Akurasi: {accuracy}')
 
