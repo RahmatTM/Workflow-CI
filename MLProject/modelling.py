@@ -13,37 +13,30 @@ mlflow.autolog()
 
 # LOAD DATASET
 url = 'https://media.githubusercontent.com/media/RahmatTM/Workflow-CI/refs/heads/main/MLProject/dataset_preprocessing/data_clean.csv'
-
 df = pd.read_csv(url)
 
 # FEATURE & TARGET
 target_column = 'price_category'
-
 X = df.drop(columns=[target_column])
 y = df[target_column]
 
 # SPLIT DATA
 X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size=0.2,
-    random_state=42
+    X, y, test_size=0.2, random_state=42
 )
 
 # TRAIN MODEL
-with mlflow.start_run():
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
 
-    model = LogisticRegression(max_iter=1000)
+# SIMPAN MODEL
+mlflow.sklearn.save_model(model, "model")
 
-    model.fit(X_train, y_train)
+# PREDIKSI
+y_pred = model.predict(X_test)
 
-    # PREDIKSI
-    y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Akurasi: {accuracy}')
 
-    # EVALUASI
-    accuracy = accuracy_score(y_test, y_pred)
-
-    print(f'Akurasi: {accuracy}')
-
-    print('\nClassification Report')
-    print(classification_report(y_test, y_pred))
+print('\nClassification Report')
+print(classification_report(y_test, y_pred))
