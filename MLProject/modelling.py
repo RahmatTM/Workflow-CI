@@ -9,7 +9,6 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 
 # ENABLE MLFLOW AUTOLOG
-mlflow.autolog()
 
 # LOAD DATASET
 url = 'https://media.githubusercontent.com/media/RahmatTM/Workflow-CI/refs/heads/main/MLProject/dataset_preprocessing/data_clean.csv'
@@ -26,11 +25,9 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # TRAIN MODEL
-model = LogisticRegression(max_iter=1000)
-model.fit(X_train, y_train)
-
-# SIMPAN MODEL
-mlflow.sklearn.save_model(model, "model")
+with mlflow.start_run():
+    model = LogisticRegression(max_iter=1000)
+    model.fit(X_train, y_train)
 
 # PREDIKSI
 y_pred = model.predict(X_test)
