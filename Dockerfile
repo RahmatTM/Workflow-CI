@@ -1,9 +1,9 @@
-FROM python:3.10
+FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY . .
+COPY . /app
 
-RUN pip install mlflow pandas scikit-learn
+RUN pip install mlflow pandas numpy scikit-learn matplotlib seaborn
 
-CMD ["python", "MLProject/modelling.py"]
+CMD ["python", "modelling.py"]

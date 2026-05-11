@@ -7,47 +7,58 @@ on:
 
 jobs:
   train-and-build:
+
     runs-on: ubuntu-latest
 
     steps:
+
+      # CLONE REPOSITORY
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # SETUP PYTHON
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
+      # INSTALL DEPENDENCIES
       - name: Install Dependencies
         run: |
-          pip install mlflow pandas scikit-learn joblib
+          pip install mlflow pandas numpy scikit-learn matplotlib seaborn
 
-      - name: Train Model
+      # RUN MLFLOW PROJECT
+      - name: Run MLflow Project
         run: |
-          python MLProject/modelling.py
-          
-      - name: Check files
+          mlflow run MLProject --env-manager=local
+
+      # CEK FILE
+      - name: Check Files
         run: |
           ls -R
-          
+
+      # UPLOAD ARTIFACT
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: trained-model
-          path: MLProject/
+          name: mlruns-artifact
+          path: mlruns/
 
-      - name: Login to Docker Hub
+      # LOGIN DOCKER HUB
+      - name: Login Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
+      # BUILD DOCKER IMAGE
       - name: Build Docker Image with MLflow
         run: |
           mlflow models build-docker \
-            -m MLProject/model \
-            -n ${{ secrets.DOCKER_USERNAME }}/workflow-ci
+          -m mlruns/0/*/artifacts/model \
+          -n ${{ secrets.DOCKER_USERNAME }}/workflow-ci
 
+      # PUSH IMAGE
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/workflow-ci
